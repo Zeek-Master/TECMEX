@@ -2,7 +2,7 @@
     <div class="admin-container">
         <div class="admin-form-container">
             <form id="adminForm" @submit="handleSubmit" novalidate autocomplete="off">
-                <h3>ADMIN</h3>
+                <h3>TECMEX ADMIN</h3>
 
                 <div v-if="errors.length" class="error-box">
                     <ul>

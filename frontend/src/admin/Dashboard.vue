@@ -1,7 +1,7 @@
 <template>
     <div class="admin-container">
         <div class="d-flex justify-content-between">
-            <h1>Hello Admin!</h1>
+            <h1>Hello TECMEX Admin!</h1>
             <button class="btn" @click="handleLogout()">Logout</button>
         </div>
 

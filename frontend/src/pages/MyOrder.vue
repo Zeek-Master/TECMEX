@@ -20,7 +20,7 @@
                 </div>
                 <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between card-summary">
 
-                    <div class="w-100 text-center py-1 px-2"><span>Total:</span> ${{ b.bill_total }}</div>
+                    <div class="w-100 text-center py-1 px-2"><span>Total:</span> ₹{{ b.bill_total }}</div>
                     <div class="w-100 text-center py-1 px-2"><span>Address:</span>{{ " " + b.bill_address }}
                     </div>
                     <div class="w-100 text-center py-1 px-2"><span>Phone:</span>{{ " " + b.bill_phone }}

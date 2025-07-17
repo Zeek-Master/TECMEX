@@ -4,7 +4,7 @@
             <form id="checkoutForm" @submit="handleSubmit" novalidate autocomplete="off">
                 <div class="checkout-heading">
                     <h3>Few more step to place your order<span>Total</span></h3>
-                    <h3 v-if="user">{{ user.user_name }}'s Order<span>${{ calculateSummaryPrice()[3] }}</span></h3>
+                    <h3 v-if="user">{{ user.user_name }}'s Order<span>₹{{ calculateSummaryPrice()[3] }}</span></h3>
                 </div>
 
                 <div class="form-group details-group">
@@ -16,7 +16,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" name="coAddress" id="coAddress" placeholder="Address in Hanoi, Vietnam"
+                        <input type="text" name="coAddress" id="coAddress" placeholder="Address in Sarita Vihar, New Delhi, India"
                             class="form-control" v-model="checkoutObj.address" />
                         <p class="error-mess" v-if="errorObj.addressErr.length > 0">{{ errorObj.addressErr[0] }}</p>
                     </div>
@@ -193,16 +193,8 @@ export default {
                 this.errorObj.phoneErr.push('Entering phone number is required');
             }
             else {
-                if (!this.checkoutObj.phone.startsWith('84')) {
-                    this.errorObj.phoneErr.push('Phone numbers must start with 84');
-                }
-
-                if (this.checkoutObj.phone.length != 11) {
-                    this.errorObj.phoneErr.push('Phone numbers must have exactly 11 digits');
-                }
-
-                if (!/[0-9]{11}/.test(this.checkoutObj.phone)) {
-                    this.errorObj.phoneErr.push('Phone numbers can only contain numbers');
+                if (!/^[6-9][0-9]{9}$/.test(this.checkoutObj.phone)) {
+                    this.errorObj.phoneErr.push('Phone number must be 10 digits, start with 6-9, and contain only numbers');
                 }
             }
 
