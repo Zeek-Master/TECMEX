@@ -1,0 +1,213 @@
+# Restaurant Ordering System - Comprehensive Project Report
+
+## Abstract
+
+The Restaurant Ordering System is a full-stack web application designed to digitize and streamline the process of food ordering and management in a restaurant environment. This project leverages modern web technologies to provide an efficient, user-friendly platform for customers, staff, and administrators. The system supports menu browsing, order placement, real-time order tracking, table booking, and administrative management. The backend is powered by Node.js and Express.js, the frontend by Vue.js, and the database is managed using MySQL, all orchestrated via XAMPP for local development and testing. This report provides a detailed overview of the system, including its motivation, architecture, implementation, database schema, and future prospects.
+
+---
+
+## Introduction
+
+In the fast-paced hospitality industry, efficient order management is crucial for customer satisfaction and operational success. Traditional manual ordering systems are prone to errors, delays, and inefficiencies. The Restaurant Ordering System addresses these challenges by providing a digital platform that automates and optimizes the ordering process. The system is designed to be scalable, secure, and easy to use, catering to the needs of both customers and restaurant staff. The motivation behind this project is to enhance the dining experience, reduce human error, and provide restaurant management with powerful tools for oversight and analytics.
+
+---
+
+## Literature Review
+
+Digital transformation in the restaurant industry has accelerated in recent years, with many establishments adopting online ordering, digital menus, and automated billing systems. Research indicates that such systems improve order accuracy, reduce wait times, and increase customer satisfaction. Existing solutions range from simple POS (Point of Sale) systems to comprehensive restaurant management platforms. However, many are either too complex or lack customization for specific restaurant workflows. This project draws inspiration from both academic research and commercial products, aiming to balance usability, functionality, and extensibility.
+
+---
+
+## Tools and Technologies Used
+
+### 1. XAMPP
+**Description:** XAMPP is a free and open-source cross-platform web server solution stack package developed by Apache Friends, consisting mainly of the Apache HTTP Server, MariaDB database, and interpreters for scripts written in PHP and Perl.
+**Usage in Project:**
+- Used to run the MySQL database server locally for development and testing.
+- Provides a control panel to manage Apache and MySQL services easily.
+- Facilitates rapid prototyping and testing without the need for complex server setup.
+**Why XAMPP?**
+- Simplifies the process of setting up a local development environment.
+- Bundles essential services (Apache, MySQL) in a single package.
+- User-friendly interface for starting/stopping services.
+
+### 2. Node.js
+**Description:** Node.js is a JavaScript runtime built on Chrome's V8 engine, enabling server-side execution of JavaScript code.
+**Usage in Project:**
+- Powers the backend server, handling API requests, business logic, and database interactions.
+- Provides a scalable, event-driven architecture suitable for web applications.
+
+### 3. Express.js
+**Description:** Express.js is a minimal and flexible Node.js web application framework.
+**Usage in Project:**
+- Used to define RESTful API endpoints.
+- Manages routing, middleware, and request/response handling.
+
+### 4. Vue.js
+**Description:** Vue.js is a progressive JavaScript framework for building user interfaces.
+**Usage in Project:**
+- Implements the frontend as a Single Page Application (SPA).
+- Provides reactive data binding and component-based architecture for a dynamic user experience.
+
+### 5. MySQL
+**Description:** MySQL is a widely used open-source relational database management system.
+**Usage in Project:**
+- Stores all persistent data, including users, menu items, orders, tables, and billing information.
+- Managed locally via XAMPP's MySQL service.
+
+### 6. Axios
+**Description:** Axios is a promise-based HTTP client for the browser and Node.js.
+**Usage in Project:**
+- Handles API requests from the frontend to the backend.
+
+### 7. Other Tools
+- **npm:** Node.js package manager for managing dependencies.
+- **Vue CLI:** For scaffolding and managing the Vue.js frontend project.
+- **VS Code:** Code editor for development.
+
+---
+
+## Implementation Details
+
+### Server Setup and Configuration
+
+#### XAMPP
+- Download and install XAMPP from the official website.
+- Use the XAMPP Control Panel to start the MySQL service.
+- Access phpMyAdmin via XAMPP to manage the database and import the schema from `db_restaurant.sql`.
+
+#### Backend (Node.js + Express.js)
+- Navigate to the `backend/` directory.
+- Install dependencies using `npm install`.
+- Configure the database connection in `backend/config/database.js` to point to the local MySQL server (usually `localhost:3306`).
+- Start the backend server with `npm start`.
+- The backend listens for API requests and interacts with the MySQL database.
+
+#### Frontend (Vue.js)
+- Navigate to the `frontend/` directory.
+- Install dependencies using `npm install`.
+- Start the development server with `npm run serve`.
+- The frontend communicates with the backend via HTTP requests (using Axios).
+
+---
+
+## Front End Implementation
+
+The frontend is implemented as a Vue.js SPA, providing a seamless and interactive user experience. Key components include:
+- **Navigation Bar:** Allows users to navigate between pages (Home, Menu, Cart, Orders, etc.).
+- **Menu Page:** Displays categorized food and drink items with images, descriptions, and prices.
+- **Cart Page:** Shows selected items, allows quantity adjustments, and proceeds to checkout.
+- **Order Tracking:** Displays real-time status updates for current orders.
+- **Table Booking:** Enables users to reserve tables.
+- **Authentication Pages:** Register and login forms for user access control.
+- **Admin Dashboard:** For menu and user management (accessible to admins).
+
+The frontend uses Vue Router for navigation and Vuex (or similar) for state management. Axios is used for all API communications.
+
+---
+
+## Back End Implementation
+
+The backend is structured using the MVC (Model-View-Controller) pattern:
+- **Models:** Define the structure and relationships of data entities (e.g., User, Food, Cart, BillDetails, BookTable).
+- **Controllers:** Contain business logic for handling requests (e.g., adding items to cart, placing orders, updating order status).
+- **Routes:** Map HTTP endpoints to controller functions.
+- **Database Connection:** Managed via `config/database.js`, connecting to the MySQL server provided by XAMPP.
+
+The backend exposes RESTful APIs for all major operations, including user authentication, menu management, order processing, and table booking. Security is enforced through authentication and role-based authorization.
+
+---
+
+## Database Schema
+
+The database schema is designed to efficiently store and manage all data required for restaurant operations. Below is a detailed explanation of the main tables and their relationships:
+
+### 1. `users`
+- **user_id** (Primary Key): Unique identifier for each user.
+- **username**: User's login name.
+- **password**: Hashed password for authentication.
+- **role**: Defines user role (customer, staff, admin).
+- **email**: User's email address.
+- **created_at**: Timestamp of account creation.
+
+### 2. `food`
+- **food_id** (Primary Key): Unique identifier for each menu item.
+- **name**: Name of the food item.
+- **description**: Description of the item.
+- **price**: Price of the item.
+- **category**: Category (e.g., appetizer, main course, drink, dessert).
+- **image**: Path or URL to the item's image.
+
+### 3. `cart`
+- **cart_id** (Primary Key): Unique identifier for each cart entry.
+- **user_id** (Foreign Key): References `users.user_id`.
+- **food_id** (Foreign Key): References `food.food_id`.
+- **quantity**: Number of units selected.
+
+### 4. `billdetails`
+- **bill_id** (Primary Key): Unique identifier for each bill/order.
+- **user_id** (Foreign Key): References `users.user_id`.
+- **total_amount**: Total price for the order.
+- **created_at**: Timestamp of order placement.
+
+### 5. `billstatus`
+- **status_id** (Primary Key): Unique identifier for each status entry.
+- **bill_id** (Foreign Key): References `billdetails.bill_id`.
+- **status**: Current status (pending, preparing, served, paid).
+- **updated_at**: Timestamp of last status update.
+
+### 6. `booktable`
+- **booking_id** (Primary Key): Unique identifier for each table booking.
+- **user_id** (Foreign Key): References `users.user_id`.
+- **table_number**: Number of the reserved table.
+- **booking_time**: Date and time of reservation.
+- **status**: Booking status (confirmed, cancelled, completed).
+
+#### **Relationships**
+- A user can have multiple orders (billdetails) and bookings (booktable).
+- Each order (billdetails) can have multiple food items (via a join table, if implemented).
+- Each cart entry links a user to a food item with a specified quantity.
+- Billstatus tracks the progress of each order.
+
+---
+
+## Result
+
+The Restaurant Ordering System successfully digitizes the restaurant ordering process, providing a seamless experience for customers and efficient management tools for staff and administrators. Customers can browse the menu, place orders, book tables, and track their orders in real time. Staff can manage orders and tables, while administrators have access to menu and user management features. The system is modular, scalable, and easy to deploy using XAMPP for local development.
+
+---
+
+## Future Work
+
+Potential enhancements for the system include:
+- Integration with online payment gateways for cashless transactions.
+- Mobile application for customers and staff.
+- Advanced analytics and reporting dashboards.
+- Loyalty and rewards programs for frequent customers.
+- Multi-language support for broader accessibility.
+- Push notifications for order updates and promotions.
+- Inventory management and supplier integration.
+- AI-driven menu recommendations.
+
+---
+
+## Conclusion
+
+The Restaurant Ordering System demonstrates the power of modern web technologies in transforming traditional business processes. By automating order management, table booking, and billing, the system enhances operational efficiency and customer satisfaction. The use of XAMPP simplifies local development and testing, while the modular architecture ensures scalability and maintainability. With further enhancements, the system can evolve into a comprehensive restaurant management platform.
+
+---
+
+## References
+
+1. XAMPP Official Documentation: https://www.apachefriends.org/index.html
+2. Node.js Documentation: https://nodejs.org/en/docs/
+3. Express.js Guide: https://expressjs.com/
+4. Vue.js Guide: https://vuejs.org/v2/guide/
+5. MySQL Documentation: https://dev.mysql.com/doc/
+6. Axios Documentation: https://axios-http.com/docs/intro
+7. Research papers and articles on digital transformation in the restaurant industry.
+8. Project source code and internal documentation.
+
+---
+
+*End of Report* 
